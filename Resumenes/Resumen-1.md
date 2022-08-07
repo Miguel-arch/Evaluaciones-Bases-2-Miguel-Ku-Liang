@@ -14,6 +14,10 @@ Most enterprises have data warehouses for analytics purposes. In the past, build
 
 # Introducing Amazon Redshift
 
+Cloud data warehouses like Amazon Redshift changed how enterprises think about data warehousing by dramatically lowering the cost and effort from deploying data warehouse systems without affecting its performance.
+
+Amazon Redshift is a data warehousing solution that makes it simple and cost-effective to analyze large volumes of data using business intelligence tools. 
+
 # Modern Analytics and Data Warehousing Architecture
 
 # Data Warehouse Technology Options
