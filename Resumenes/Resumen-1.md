@@ -82,6 +82,18 @@ You can analyze data using the tools used for processing data. Amazon Redshift w
 
 # Data Warehouse Technology Options
 
+## Row-Oriented Databases
+
+They store whole rows in a physical block. High performance for read operations is achieved through secondary indexes.
+
+## Column-Oriented Databases
+
+They organize each column in its own set of physical blocks. This allows them to be more input/output efficient for read-only queries because they only read the columns accessed by the query.
+
+## Massively Parallel Processing Architectures
+
+It can use all the resources available in the cluster for processing data, increasing performance of data warehouses. MPP data warehouses can improve performance by adding more nodes to the cluster.
+
 # Amazon Redshift Deep Dive
 
 # Operations
