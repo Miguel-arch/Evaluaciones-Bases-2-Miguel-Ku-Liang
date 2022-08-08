@@ -128,6 +128,24 @@ It enables to scale and pay for compute and storage independently to size the cl
 
 # Operations
 
+Amazon Redshift automates many operational tasks like:
+* Cluster Performance
+* Cost Optimization
+
 ## Ideal Usage Patterns
 
+Enterprises use Amazon Redshift to:
+* Run enterprise BI and reporting
+* Analyze global sales data for multiple products
+* Store historical stock trade data
+* Analyze ad impressions and clicks
+* Aggregate gaming data
+* Analyze social trends
+* Measure clinical quality, operation efficiency and financial performance in health care
+
 ## Anti-Patterns
+
+Amazon Redshift is not suited for:
+* OLTP
+* Unstructured data
+* BLOB data
