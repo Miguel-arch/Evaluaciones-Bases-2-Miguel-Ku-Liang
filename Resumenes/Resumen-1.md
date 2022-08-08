@@ -96,6 +96,36 @@ It can use all the resources available in the cluster for processing data, incre
 
 # Amazon Redshift Deep Dive
 
+Amazon Redshift offers key benefits for performant, cost-effective data warehousing. It delivers fast query and I/O performance for any data size by using columnar storage and parallelizing and distributing queries across multiple nodes.
+
+## Integration with Data Lake
+
+Amazon Redshift provides a feature called **Redshift Spectrum** that makes it easier to query data and write data to the data lake in open file formats.
+
+## Performance
+
+Amazon Redshift offers features to achieve an industry-leading performance. This includes:
+* High performing hardware
+* Advanced Query Accelerator
+* Efficient storage and high-performance query processing
+* Materialized views
+* Auto workload management to maximize throughput and performance
+* Result caching
+
+## Durability and Availability
+
+Amazon Redshift automatically detects and replaces any failed node in the data warehouse cluster. It makes the replaced node available immediately and loads the most frequently accessed data first.
+
+## Elasticity and Scalability
+
+Amazon Redshift gets the elasticity and scalability needed for the data warehousing workloads. It provides two forms of compute elasticity:
+* Elastic resize
+* Concurrency Scaling
+
+### Amazon Redshift Managed Storage
+
+It enables to scale and pay for compute and storage independently to size the cluster based on the compute needs.
+
 # Operations
 
 ## Ideal Usage Patterns
