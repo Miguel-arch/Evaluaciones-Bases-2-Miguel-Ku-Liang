@@ -89,27 +89,33 @@ A merging compaction that rewrites all SSTables into one SSTable is called a **m
 
 ## Refinements
 
-
 ### Locality groups
 
+Clients can group multiple column families together into a **locality group**. A separate SSTAble is generated for each locality group in each tablet. Segregating column families that are not accessed together into separate locality groups enables more efficient reads. 
 
 ### Compression
 
+Clients can control whether or not the SSTables for a locality group are compressed, and if they are compressed, which compression format is used. The user-specified compression format is applied to each SSTable block. Many clients use a two-pass custom compression scheme. The first pass uses **Bentley and McIlroy's scheme** which compresses long common strings across a large window. The second pass uses a fast compression algorithm that looks for repetitions in a small 16 KB window of the data.
 
 ### Caching for read performance
 
+To improve read performance, tablet servers use two levels of caching. The **Scan Cache** is a higher-level cache that caches the key-value pairs returned by the SSTable interface to the tablet server code. The **Block Cache** is a lower-level cache that caches SSTables blocks that were read from GFS. The **Scan Cache** is most useful for applicactions that tend to read the same data repreatedly. The **Block Cache** is useful for applications that tend to read data that is close to the data they recently read.
 
 ### Bloom filters
 
+A **Bloom filter** allows us to ask whether an SSTable might contain any data for a specified row or column pair. For some applications, a small amount of tablet server memory used for storing Bloom filters reduces the number if disk seeks for read operations. 
 
 ### Commit-log implementation
 
+Depending on the file system implementation on each GFS server, the amount of written files in GFS could cause a large number of disk seeks to write to the different log files. To fix this, we append mutations to a single commit log per tablet server, co-mingling mutations for different tablets in the same log file. 
 
 ### Speeding up tablet recovery
 
+If the master moves a tablet from one tablet server to another, the source tablet server does a minor compaction on that tabler. This reduces recovery time by reducing the amount of uncompacted state in the tablet server's commit log. The tablet server stops serving the tablet. Before this, the tablet server does another minor compaction to eliminate any uncompacted state in the tablet server's log. Then, the tablet can be loaded on another tablet server without requiring any recovery of log entries.
 
 ### Exploiting immutability
 
+Various parts of the Bigtable system have been simplified because all of the SSTables that we generate are immutable. Since SSTables are immutable, the problem of permanently removing deleted data is transformed to garbage collecting obsolete SSTables. It also enables us to split tablets quickly.
 
 ## Performance Evaluation
 
