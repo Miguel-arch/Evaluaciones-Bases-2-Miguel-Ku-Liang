@@ -31,6 +31,13 @@ To manage versioned data, it has two per-column-family settings that tell Bigtab
 
 ## API
 
+The Bigtable API provides functions for creating and deleting tables and column families. It provides functions for changing cluster, table, and column family metadata. 
+
+Client applications can write or delete values in Bigtable, look up values from individual rows or iterate over a subset of the data in a table. 
+
+Bigtable supports other features that allow the user to manipulate data in more complex ways. It supports single-row transactions that are used to perform atomic read-modify-write sequenceson data stored under a single row key. Bigtable does not support general transactions across row keys, but it provides an interfacce for batching writes across row keys at the clients. It allows cells to be used as integer counters. Bigtable supports the execution of client-supplied scripts in the address spaces of the servers. The scripts are written in a language developed at Google for processing data called **Sawzall**. 
+
+Bigtable can be used with MapReduce, a framework for running large-scale parallel computations developed at Google. 
 
 ## Building Blocks
 
