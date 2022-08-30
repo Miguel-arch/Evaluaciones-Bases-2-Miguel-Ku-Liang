@@ -51,18 +51,41 @@ Bigtable uses Chubby to ensure that there is at most one active master everytime
 
 ## Implementation
 
+The Bigtable implementation has three components: a library that is linked into every client, one master server and many tablet servers. Tablet servers can be dynamically added from a cluster to accomodate changes in workloads. 
+
+The master is responsible for assigning tablets to tablet servers, detecting the addition and expiration of tablet servers, balancing tablet-server load, garbage collection of files in GFS and handles schema changes.
+
+Each tablet server manages a set of tablets. They handle read and write requests to the tablets that it has loaded and splits tablets that have grown too large. 
+
+Clients communicate directly with tablet servers for reads and writes so the master is lightly loaded in practice. 
+
+A Bigtable cluster stores a number of tables. Each table consists of a set of tablets and each tablet contains all data associated with a row range. As a table grows, it is split into multiple tablets, each 100-200 MB in size by default.
 
 ### Tablet Location
 
+It uses a three-level hierarchy to store tablet location information.
+
+The first level is a file stored in Chubby that contains the location of the **root tablet**. It contains the location of all tablets in a special **Metadata table**. Each metadata table contains the location of a set of **user tablets**. 
 
 ### Tablet Assignment
 
+Each tablet is assigned to one tablet server at a time. The master keeps track of the set of live tablet servers and the current assignment of tablets to tablet servers. When a tablet is unassigned and a tablet server with sufficient room for the tablet is available, the master assigns the tablet by sending a tablet load request to the tablet server.
 
 ### Tablet Serving
 
+The persistent state of a tablet is stored in GFS. Updates are committed to a commit log that stores redo records. The recently committed ones are stored in memmory in a sorted buffer called **memtable**. The older updates are stored in a sequence of SSTable. To recover a tablet, a tablet server reads its metadata from the metadata table. 
+
+When a write operation arrives at a tablet server, the server checks that it is well-formed and that the sender is authorized to perform the mutation. 
+
+When a read operation arrives at a tablet server, it is checked for well-formedness and proper authorization.
 
 ### Compactions
 
+As write operations execute, the size of the memtable increases. When it reaches a threshold, the memtable is frozen, a new memtable is created and the frozen memtable is converted to an SSTable and written to GFS. This **minor compaction** shrinks the memory usage of the tablet server and reduces the amount of data that has to be read from the commit log during recovery if this server dies. 
+
+If this continues unchecked, read operations might need to merge updates from an arbitrary number of SSTables. Instead, we execute a **merging compaction** in the background. It reads the contents of a few SSTables and the memtable and writes out a new SSTable.
+
+A merging compaction that rewrites all SSTables into one SSTable is called a **major compaction**. 
 
 ## Refinements
 
