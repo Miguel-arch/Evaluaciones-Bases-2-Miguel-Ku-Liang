@@ -119,12 +119,17 @@ Various parts of the Bigtable system have been simplified because all of the SST
 
 ## Performance Evaluation
 
-
 ### Single tablet-server performance
 
+Random reads are slower than all other operations by an order of magnitude or more. Random reads from memory are much faster. 
+
+Random and sequential writes perform better than random reads since each tablet server appends all incoming writes to a single commit log and uses group commit to stream these writes efficiently to GFS. There is no significant difference between the performance of random writes and sequential writes.
+
+Sequential reads perform better than random reads. Scans are even faster since the tablet server can return a large number of values in response to a single client RPC.
 
 ### Scaling
 
+Aggregate throughput increases dramatically as we increase the number of tablet servers in the system from 1 to 500.
 
 ## Real Applications
 
