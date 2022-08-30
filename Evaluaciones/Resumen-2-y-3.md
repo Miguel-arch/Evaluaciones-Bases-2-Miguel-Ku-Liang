@@ -41,6 +41,13 @@ Bigtable can be used with MapReduce, a framework for running large-scale paralle
 
 ## Building Blocks
 
+Bigtable uses the distributed **Google File System** to store log and data files. A Bigtable cluster operates in a shared pool of machines that run a wide variety of other distributed applications and Bigtable processes often share the same machines with processes from other applications. It depends on a cluster management system for scheduling jobs, managing resources on shared machines, dealing with machine failures and monitoring machine status. 
+
+The Google **SSTable** file format is used to store Bigtable data. It provides a persistent, ordered immutable map from keys to values, where both are arbitrary byte strings. Operations are provided to look up the value associated with a specified key. Each SSTable contains a sequence of blocks. A **block index** is used to locate blocks. A lookup can be performed with a single disk seek. It finds the corresponding block by performing a binary search in the in-memory index and reads the block from disk. The SSTable can be mapped into memory, allowing it to perform lookups and scans without touching the disk.
+
+Bigtable relies on a highly-available and persistent distributed lock service called **Chubby**. It consists of five active replicas, one elected to be the master. Chubby uses the **Paxos algorithm** to keep its replicas consistent if they fail. 
+
+Bigtable uses Chubby to ensure that there is at most one active master everytime, to store the bootstrap location of Bigtable data, to discover tablet servers and finalize tablet server deaaths, to store Bigtable schema information and to store access control lists. If Chubby is unavailable for an extended period of time, Bigtable becomes unavailable. 
 
 ## Implementation
 
