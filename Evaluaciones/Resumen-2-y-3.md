@@ -158,5 +158,8 @@ Personalized Search is an opt-in service that records user queries and clicks ac
 
 ## Related Work
 
+The **Boxwood project** has components that overlap with Chubby, GFS and Bigtable. Its goal is to provide infrastructure for building higher-level services such as databases while Bigtable's goal is to support client applications that wish to store data.
+
+Several database vendors have developed parallel databases that can store large volumes of data like **Oracle's Real Application Cluster database**. It uses shared disks to store data and a distributed lock manager. IBM's **DB2 Parallel Edition** is based on a shared-nothing architecture similar to Bigtable.
 
 ## Conclusions
