@@ -163,3 +163,5 @@ The **Boxwood project** has components that overlap with Chubby, GFS and Bigtabl
 Several database vendors have developed parallel databases that can store large volumes of data like **Oracle's Real Application Cluster database**. It uses shared disks to store data and a distributed lock manager. IBM's **DB2 Parallel Edition** is based on a shared-nothing architecture similar to Bigtable.
 
 ## Conclusions
+
+The control over Bigtable's implementation and other Google infrastructure that Bigtable depends, means that it can remove bottlenecks and inefficiencies as they arise.
