@@ -151,6 +151,10 @@ Personalized Search is an opt-in service that records user queries and clicks ac
 
 ## Lessons
 
+* Large distributed systems are vulnerable to many types of failures.
+* Delay adding new features until it is clear how the new features will be used.
+* Proper system-level monitoring
+* Value of simple designs
 
 ## Related Work
 
