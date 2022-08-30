@@ -133,15 +133,21 @@ Aggregate throughput increases dramatically as we increase the number of tablet 
 
 ## Real Applications
 
-
 ### Google Analytics
 
+Google Analytics is a service that helps webmasters analyze traffic patterns at their web sites. 
+
+The **raw click table** maintains a row for each end-user session. The row name is a tuple containing the website's name and the time the session was created.
+
+The **sumary table** contains various predefined summaries for each website. It is generated from the raw click table by periodically scheduled MapReduce jobs. Each job extracts recent session data from the raw click table.
 
 ### Google Earth
 
+Provides users with access to high-resolution satellite imagery of the world's surface. This system uses one table to preprocess data and a different set of tables for serving client data.
 
 ### Personalized Search
 
+Personalized Search is an opt-in service that records user queries and clicks across a variety of Google properties. It stores each user's data in Bigtable. Each user has a unique user id and is assigned a row named by that user id. All user actions are stored in a table.
 
 ## Lessons
 
