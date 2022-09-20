@@ -23,19 +23,25 @@
 
 ### Schema Agnostic Indexing
 
-
-
 #### No Schema, No Problem!
 
+The schema of a document describes the structure and the type system of the document independent of the document instance. DocumentDB exploits the simplicity of JSON and its lack of a schema specification. 
 
 #### Documents as Trees
 
+Representing JSON documents as trees normalizes the structure and the instance values across documents into a dynamically encoded path structure.
 
 #### Index as a Document
 
+Every path in a document tree is indexed. Each update of a document to a collection leads to update of the structure of the index.  
+
+There are two possible mappings of document and the paths:
+* **forward index mapping**: keeps a map of (document id, path) tuples
+* **inverted index mapping**: keeps a map of (path, document id) tuples
 
 #### DocumentDB Queries
 
+Developers can query DocumentDB collections using queries written in SQL and JavaScript. They operate directly against the tree representation.
 
 ### Logical Index Organization
 
