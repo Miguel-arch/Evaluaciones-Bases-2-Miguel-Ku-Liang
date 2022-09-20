@@ -45,23 +45,34 @@ Developers can query DocumentDB collections using queries written in SQL and Jav
 
 ### Logical Index Organization
 
-
 #### Directed Paths as Terms
 
+A term represents a unique path in the index tree.
 
-##### Encodign Path Information
+##### Encoding Path Information
 
+The number of segments in each term is important in terms of trade-off between query functionality, performance and indexing cost. We default three segments because most of the JSON documents have root, a key and a value in most of the paths and it helps distinguish various paths from each other. 
 
 ##### Partial Forward Path Encoding Scheme
 
+It involves parsing of the document from the root and selcting three suffix nodes successively to yield a distinct path consisting of three segments. This scheme is used to do range and spatial indexing.
 
 ##### Partial Reverse Path Encoding Scheme
 
+It is similar to the previous scheme, but the term generated is in reverse order. This scheme is suitable for point query performance.
 
 #### Bitmaps as Postings Lists
 
+A **postings list** captures the document ids of all the documents which contain the given term. To represent a postings list, we do:
+* **Partitioning a Postings List**: each insertion of a new document to a DocumentDB collection is assigned an increasing document id.
+* **Dynamic Encoding of Posting Entries**: each document needs 14 bits which can be captured with a short word.
+
 #### Customizing the Index
 
+The default indexing policy indexes all properties of all documents and provides consistent queries. Developers can override the indexing policy by configuring the following:
+* Including/Excluding documents and paths to/from index
+* Configuring various index types
+* Configuring index update modes
 
 ### Physical Index Organization
 
