@@ -76,45 +76,49 @@ The default indexing policy indexes all properties of all documents and provides
 
 ### Physical Index Organization
 
-
 #### The "Write" Data Structure
 
+Consistent indexing in DocumentDB provides fresh query results for sustained document ingestion. This is a problem in a multi-tenant setting with frugal budget for memory, CPU and IOPS.
 
 #### The Bw-Tree for DocumentDB
 
+Extending the Bw-Tree could meet the requirements that were described. It uses latch-free in-memory updates and log structured storage for persistence.
 
 ##### High Concurrency
 
+The Bw-Tree operates in a latch-free manner, allowing high concurrency. A modification of a page is done by appending a delta record on top of the page.
 
 ##### Write Optimized Storage Organization
 
+In a B+-Tree, storage is organized into fixed size pages. The page is read into memory, updated in-place and written back to storage.
 
 #### Index Updates
 
-
 ##### Document Analysis
 
+It is performed by the document analyzer in the indexing subsystem. The document analysis function takes the document content, a logical timestamp when it was last updated and the indexing policy yields a set of paths.
 
 ##### Efficient and Consistent Index Updates
 
+DocumentDB's database engine uses a merge callback function to consolidate Bw-Tree pages by combining fragments of key values across base page and delta records. 
 
 ##### Lazy Index Updates with Invalidation Bitmap
 
+DocumentDB collection configured with the lazy indexing mode is performed in the background. Maintain a counting invalidation bitmap which is a bitmap representing the document ids from the deleted and replaced document images and a count representing the number of times the document update has been recorded.
 
 #### Index Replication and Recovery
 
-
-##### Index Replication
-
-
-##### Index Recovery
-
+DocumentDB follows a single master model for writes. The primary replica considers the write operation successful if it is durably committed to local disk by the write quorum of replicas. For read operations, the client contacts the read quorum to determine the correct version of the resource. 
 
 #### Index Resource Governance
 
+DocumentDB offers richer access functionality than a key-value store. A Request Unit encapsulates a chunk of CPU, memory and IOPS. RU/second provides the unit for accounting, provisioning, allocating and consuming throughput guarantees.
 
 ##### Index Resource Governance
 
+* CPU resources: DocumentDB database engine manages its thread scheduler.
+* Memory resources: DocumentDB database engine and its components operates within a given memory budget.
+* Storage IOPS resources: DocumentDB database engine needs to operate within a given IOPS budget.
 
 ### Insights from the Production Workloads
 
