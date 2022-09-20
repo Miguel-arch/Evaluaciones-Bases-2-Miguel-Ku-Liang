@@ -1,3 +1,123 @@
 > Bases de Datos 2, Resumen 4  
 > Miguel Ku Liang - 2019061913
 
+### Introduction
+
+**Azure DocumentDB** is Microsoft's multi-tenant distributed database service for managing JSON documents at Internet scale. DocumentDB's indexing subsystem needs to support automatic indexing of documents without requiring a schema or secondary indices, DocumentDB's query language, real-time consistent queries in the face of sustained high document ingestion rates and multi-tenancy under extremely frugal resource budgets while providing predictable performance guarantees and remaining cost effective. 
+
+#### Overview of the Capabilities
+
+* The query language supports rich relational and hierarchical queries.
+* The database engine is optimized to serve consistent queries in the face of sustained high volume document writes.
+* Transactional execution of application logic provided via stored procedures and triggers.
+* DocumentDB offers consistency levels and corresponding performance guarantees.
+* All machine and resource management is abstracted from users.
+
+#### Design Goals for Indexing
+
+* Automatic indexing
+* Configurable storage/performance tradeoffs
+* Efficient, rich hierarchical and relational queries
+* Consistent queries in face of sustained volume of document writes
+* Multi-tenancy
+
+### Schema Agnostic Indexing
+
+
+
+#### No Schema, No Problem!
+
+
+#### Documents as Trees
+
+
+#### Index as a Document
+
+
+#### DocumentDB Queries
+
+
+### Logical Index Organization
+
+
+#### Directed Paths as Terms
+
+
+##### Encodign Path Information
+
+
+##### Partial Forward Path Encoding Scheme
+
+
+##### Partial Reverse Path Encoding Scheme
+
+
+#### Bitmaps as Postings Lists
+
+#### Customizing the Index
+
+
+### Physical Index Organization
+
+
+#### The "Write" Data Structure
+
+
+#### The Bw-Tree for DocumentDB
+
+
+##### High Concurrency
+
+
+##### Write Optimized Storage Organization
+
+
+#### Index Updates
+
+
+##### Document Analysis
+
+
+##### Efficient and Consistent Index Updates
+
+
+##### Lazy Index Updates with Invalidation Bitmap
+
+
+#### Index Replication and Recovery
+
+
+##### Index Replication
+
+
+##### Index Recovery
+
+
+#### Index Resource Governance
+
+
+##### Index Resource Governance
+
+
+### Insights from the Production Workloads
+
+
+#### Document Frequency Distribution
+
+
+#### Schema Variance
+
+
+#### Query Performance
+
+
+#### On-Disk Index overhead
+
+
+#### Blind Invremental Updates
+
+
+### Related Commercial Systems
+
+
+### Conclusion
