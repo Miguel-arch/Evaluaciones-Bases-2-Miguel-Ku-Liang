@@ -122,23 +122,14 @@ DocumentDB offers richer access functionality than a key-value store. A Request 
 
 ### Insights from the Production Workloads
 
-
 #### Document Frequency Distribution
 
-
-#### Schema Variance
-
+Document frequency distribution for the unique terms universally follow Zipf's Law. 
 
 #### Query Performance
 
+It is defined in terms of the number of false positives in postings for a given term lookup.
 
-#### On-Disk Index overhead
+#### Blind Incremental Updates
 
-
-#### Blind Invremental Updates
-
-
-### Related Commercial Systems
-
-
-### Conclusion
+Highly performant index updates within an extremely frugal memory and IOPS budget is the reason behind the blind incremental update access method.
