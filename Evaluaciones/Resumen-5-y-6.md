@@ -117,7 +117,6 @@ Ressi stores a database as an LSM tree. Each layer, Ressi organizes data into bl
 
 Migrating the storage format from SSTable to Ressi for a globally replicated, highly available database like Spanner requires extreme care in conversion to ensure data integrity and minimal, reversible rollout to avoid user-visible latency spikes or outages.
 
-## Lessons learned and challenges
-
-
 ## Conclusions
+
+Spanner was designed from the beginning to run exclusively as a service. It is important to understand Spanner's relationship to the NoSQL movement. ACID transactions spanning arbitrary rows or keys is the next hardest barrier for scalable data management systems.
