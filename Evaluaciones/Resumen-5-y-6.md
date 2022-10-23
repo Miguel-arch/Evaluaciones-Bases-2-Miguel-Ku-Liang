@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Google's Spanner started as a key-value store offering multi-row trnsactions, external consistency and transparent failover across datacenters. It has evolved into a relational database system. The desire to make it behave like a traditional databse has forced the system to evolve:
+Google's Spanner started as a key-value store offering multi-row transactions, external consistency and transparent failover across datacenters. It has evolved into a relational database system. The desire to make it behave like a traditional databse has forced the system to evolve:
 * The architecture of the storage stack has driven fundamental changes in our query compilation and execution
 * The demands of the query processor have driven fundamental changes in the way we store and manage data
 
@@ -97,6 +97,11 @@ The restart implementation has to overcome the following challenges:
 
 ## Common SQL Dialect
 
+Spanner's SQL engine shares a common SQL dialect called **Standard SQL**, with several other systems at Google including internal systems like F1 and Dremel, and external systems like BigQuery.
+
+The effort to standardize the implementations covers gaps in the SQL standard where details are unclear or left to the implementation and covers the Google specific extensions. To ensure consistency between systems, several shared components were built as a collaboration between teams, referred to internally as the GoogleSQL library.
+
+The first component is the **compiler front-end**. It performs parsing, name resolution, type checking and semantic validation. The second component is a **library of scalar functions**. Semantics of scalar functions are defined in the language specification and documentation, but direct sharing reduces the chances for divergence in corner cases and brings consistency to runtime errors such as overflow checking. The third component is a **shared testing framework and shared tests**. These tests fall into two categories, compliance and coverage tests. Compliance tests are a suite of developer written queries with a hard-coded result or supplied result checking procedure. Coverage tests use a random query generation tool and a reference engine implementation to check query results.
 
 ## Blockwise-columnar storage
 
