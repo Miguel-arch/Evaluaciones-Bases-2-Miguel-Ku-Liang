@@ -105,6 +105,17 @@ The first component is the **compiler front-end**. It performs parsing, name res
 
 ## Blockwise-columnar storage
 
+The SSTable data format inherited from Bigtable is optimized for schemaless NoSQL data consisting of large string. It is self-describing and highly redundant, and a traversal of individual columns within the same locality group is inefficient.
+
+**Ressi** is the new low-level storage format for Spanner.
+
+### Ressi data layout
+
+Ressi stores a database as an LSM tree. Each layer, Ressi organizes data into blocks in row-major order, but lays out the data within a block in column-major order.
+
+### Live migration from SSTables to Ressi
+
+Migrating the storage format from SSTable to Ressi for a globally replicated, highly available database like Spanner requires extreme care in conversion to ensure data integrity and minimal, reversible rollout to avoid user-visible latency spikes or outages.
 
 ## Lessons learned and challenges
 
