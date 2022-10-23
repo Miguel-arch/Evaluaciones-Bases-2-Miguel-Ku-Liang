@@ -25,19 +25,25 @@ A replica stores data in an append-only distributed filesystem called **Colossus
 
 ## Query Distribution
 
+### Distributed query compilation
 
-### DIstributed query compilation
-
-
+The Spanner SQL query compiler uses the traditional approach of building a relational algebra operator tree and optimizing it using equivalent rewrites. Query distribution is represented using operators in the query algebra tree. One distribution operator is **Distributed Union**. It is used to ship a subquery to each shard of the underlying persistent or temporary data and to concatenate the results. Distributed Union is a fundamental operation in Spanner, because the sharding of a table may change during query execution and after a query restart.
 
 ### Distributed Execution
 
+Distributed Union minimizes latency by using the Spanner coprocessor framework to route a subquery request addressed to a shard to one of the nearest replicas that can serve the request. Shard pruning is used to avoid querying irrelevant shards. Shard pruning leverages the range keys of the shards and depends on pushing down conditions on sharding keys of tables to the underlying scans.
 
 ### Distributed joins
 
+The **batched apply join**'s primary use case is to join a secondary index and its independently distributed base table. It is also used for executing Inner/Left/Semi-joins with predicates involving the keys of the remote table. Spanner implements a Distributed Apply operator by extending Distributed Union and implementing Apply style join in a batched manner.
+
+Distributed Apply allows Spanner to minimize the number of cross-machine calls for key-based joins and parallelize the execution. It allows turning full table scans into a series of minimal range scans.
+
+Distributed Apply can execute its subquery in parallel on multiple shards. On each shard, seek range extraction takes care of scanning a minimal amount of data from the shard to answer the query.
 
 ### Query distribution APIs
 
+Spanner exposes two kinds of APIs for issuing queries and consuming results. The **single-consumer API** is used when a single client process consumes the results of a query. The **parallel-consumer API** is used for consuming query results in parallel from multiple processes running on multiple machines. This API is designed for data processing pipelines and map-reduce type systems that use multiple machines to join Spanner data with data from other systems or to perform data transformation outside of Spanner.
 
 ## Query Range Extraction
 
