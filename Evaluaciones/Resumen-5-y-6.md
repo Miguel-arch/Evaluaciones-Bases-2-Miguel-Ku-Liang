@@ -47,15 +47,26 @@ Spanner exposes two kinds of APIs for issuing queries and consuming results. The
 
 ## Query Range Extraction
 
-
 ### Problem statement
 
+Query range extraction refers to the process of analyzing a query and determining what portions of tables are referenced by the query. Spanner employs several flavors of range extraction:
+* Distribution range extraction: knowing what table shards are referenced by the query is essential for routing the query to the servers hosting those shards
+* Seek range extraction: once the query arrives at a Spanner server, we figure out what fragments of the relevant shard to read from the underlying storage stack.
+* Lock range extraction: the extracted key ranges determine what fragments of the table are to be locked or checked for potential pending modifications.
 
 ### Compile-time rewriting
 
+The implementation of range extraction in Spanner relies on two main techniques. At compile time, we normalize and rewrite a filtered scan expression into a tree of correlated self-joins that extract the ranges for successive key columns. At runtime, we use a special data structure called a **filter tree** for both computing the ranges via bottom-up interval arithmetic and for efficient evaluation of post-filtering conditions. 
+
+Compile-time rewriting performs a number of expression normalization steps:
+* NOT is pushed to the leaf predicates. This transformation is linear in the size of the expression.
+* the leaves of the predicate tree that reference key columns are normalized by isolating the key reference.
+* small integer intervals are discretized.
+* complex conditions that contain subqueries or expensive library functions are eliminated for the purposes of range extraction.
 
 ### Filter tree
 
+The filter tree is a runtime data structure that is simultaneously used for extracting the key ranges via bottom-up intersection or union of intervals, and for post-filtering the rows emitted by the correlated self-joins. The tree memoizes the results of predicates whose values have not changed and prunes the interval computation.
 
 ## Query Restarts
 
