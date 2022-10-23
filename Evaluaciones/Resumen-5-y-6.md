@@ -70,12 +70,30 @@ The filter tree is a runtime data structure that is simultaneously used for extr
 
 ## Query Restarts
 
+Spanner automatically compensates for failures, resharding and binary rollouts, affecting request latencies in a minimal way. The client library transparently resumes execution of snapshot queries if transient errors or other system events occur, even when partial results have been consumed by the user's code. In a read-modify-write transaction, a failure results in the loss of locks and requires the transaction to be aborted and retried. Remote subqueries executed as part of a client query by Spanner servers are restartable.
 
 ### Usage scenarios and benefits
 
+* Hiding transient failures: Spanner fully hides transient failures during query execution. This means that a snapshot transaction will never return an error on which the client needs to retry. Non-transient errors like "deadline exceeded" or "snapshot data has been garbage collected" must still be expected by clients. The list of transient failures Spanner hides includes network disconnects, machine reboots, process crashes, distributed wait and data movement. Spanner's failure handling implementation is optimized to minimize wasted work when recovering from transient failures. 
+* Simpler programming model: no retry loops: retry loops in database client code is a source of hard to troubleshoot bugs. Spanner users are encouraged to set realistic request deadlines and do not need to write retry loops around snapshot transactions and standalone read-only queries.
+* Streaming pagination through query results: interactive applications use paging to retrieve results of a single query in portions that fit into memory and constitute a reasonable chunk of work to do on the client side or on a middle tier. Batch processing jobs use paging to define portions of data to process in a single shot.
+* Improved tail latency for online requests: Spanner's ability to hide transient failures and to redo minimal amount of work when restarting after a failure helps decrease tail latency for online requests. 
+* Forward progress for long-running queries: for long-running queries where the total running time of the query is comparable to mean time to failure is important to have execution environment that ensures forward progress in case of transient failures, or some queries may not finish in reasonable time, even with retry loops.
+* Recurrent rolling upgrades: support for query restart complements other resumable operations like schema upgrades and online index building, allowing the Spanner team to deploy new server versions regularly without affecting request latency and system load.
+* Simpler Spanner internal error handling: as Spanner uses restartable RPCs for client-server calls and for internal server-server calls, it simplified te architecture in regards to failure handling. Spanner server can return an internal retry error code and rely on the restart mechanism to not waste resources when the request is retried.
 
 ### Contract and requirements
 
+Spanner extended its RPC mechanism with an additional parameter, a restart token. **Restart tokens** accompany all query results, sent in batches, one restart token per batch. This restart token blob when added as a special parameter to the original request prevents the rows already returned to the client to be returned again. The restart contract makes no repeatability guarantees.
+
+One way to hide transient failures is by buffering all results in persistent memory before delivering to the client and ensuring forward progress on transient failures by persisting intermediate results produced by each processing node. Does not work well for systems aiming at low latencies and requires the intermediate results to be persisted as reliably as the primary storage.
+
+Instead, implement a fully streaming request processing where neither intermediate nor final results hit persistent storage for the purpose of restartability.
+
+The restart implementation has to overcome the following challenges:
+* Dynamic resharding: Spanner uses query restarts to continue execution when a server loses ownership of a shard or boundaries of a shard change. A request targeted to a key range needs to cope with ongoing splitting, merging and moving of the data.
+* Non-determinism: many opportunities for improving query performance in a distributed environment present sources of non-deterministic execution that causes result rows to be returned in some non-repeatable order.
+* Restarts across server versions: a new version of the server code may introduce subtle changes to the query processor that need to be addressed to preserve restartability. Restart token wire format, uery plan and operator behavior are aspects of Spanner that must be compatible across the versions.
 
 ## Common SQL Dialect
 
