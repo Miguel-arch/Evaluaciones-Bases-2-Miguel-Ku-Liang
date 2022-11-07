@@ -29,31 +29,35 @@ Digital transformation requires modernizing the IT landscape and demands crystal
 
 ## The Return on Connected Data
 
-
-
 ### Connections Unlock the Value of Data
 
-
+The value of data comes from an organization’s ability to understand it in relation to other data. Increasing data's connectedness further increases its value through additional context. Because relational databases don't persist relationship information in storage or any other stage of their analytic exercises, finding connections requires an enormous amount of processing.
 
 ### Data, Data Everywhere, Nor any Drop to Drink
 
+Organizations are surrounded by data, but they’re limited in their ability to do anything with it. They are failing to realize big data’s value because the value isn't in disparate data, but in the relationships between the data.
 
+Data becomes connected when you treat relationship information as a first-class entity.
 
 ### The Power of Connected Data
 
+The biggest benefit of connected data is the ability to provide a connected view of data to the analytic and operational applications. The connections can be made available or revealed to applications or business users to make operational decisions.
 
+You obtain context that allows you to more deeply or better refine the pieces of information collected or the recommendations produced. The more understanding you have of the connectedness or relationships between data, the better and more refined the system is downstream.
+
+You can better understand the flow of money to detect fraud and money laundering and assess the risk of a network outage across computer networks. Connected data is most powerful when it provides operational, real-time insights. It allows business users and applications to make business decisions and act in real-time.
 
 ### Quench Your Thirst for Insights with Connected Data
 
+A graph database makes it easy to express and persist relationships across many types of data elements. A graph database is a highly scalable transactional and analytic database that stores data relationships as first-class entities.
 
+Graph databases are simple and agile due to their schema-optional nature. Graphs can be easily changed or updated. A graph database can address the challenge of migrating all of your data into one connected place.
+
+You can get more value out of your big data technology by using graphs to transfer knowledge of what the organization has done across other departments. By connecting data, graphs enable you to leverage all of the data you’ve dumped into the data lake.
 
 ### Neo4j: Your Path to Connected Data
 
-
-
-### Conclusion
-
-
+Neo4j offers a native graph platform that reveals and maintains the integrity of connected data. It offers this connections-first approach as a new paradigm to reveal and utilize relationships among data in order to help organizations along their path to new generations of applications and analytic advancements. It makes connected data easy.
 
 ## A Brief Introduction to Graph Data Platforms
 
