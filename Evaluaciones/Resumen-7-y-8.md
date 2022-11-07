@@ -61,41 +61,58 @@ Neo4j offers a native graph platform that reveals and maintains the integrity of
 
 ## A Brief Introduction to Graph Data Platforms
 
-
-
 ### Introduction
 
-
+Relational databases' structure fails to adapt easily to the complexity of data, its context and its interconnections. Real-time recommendations rely on connected data. This would require linking many tables.
 
 ### What Are Graph Databases Good for?
 
+Graph database technology is specifically designed and optimized for highly interconnected datasets to identify patterns and hidden connections. A graph database efficiently stores and queries connected data in a node-and-relationships format.
 
+The most common graph use cases and solutions include:
+* Fraud Detection & Analytics
+* Artificial Intelligence & Machine Learning
+* Real-Time Recommendation Engines
+* Knowledge Graphs
+* Network & Database Infrastructure Monitoring
+* Master Data Management
+
+Their success requires solving complex problems with dynamic and interconnected datasets. Graph databases tackle the most harrowing of data problems, including:
+* Different views of the data model between business and technology teams
+* Lack of schema flexibility and adaptability
+* The "JOIN problem"
 
 ### Traditional Technology Choices Do Not Consider How Data Is Interrelated
 
-
+Relational databases are not well-suited for modeling and storing today’s highly connected and agile datasets. Traditional RDBMS technology has a difficult time expressing and revealing how real and virtual entities are related.
 
 ### Collections vs. Connections
 
-
-
 #### SQL & NoSQL Systems Focus on Data Aggregation & Collection
 
+Collection-centric storage designs as implemented by SQL and Not only SQL databases are designed to efficiently divide and store data.
 
+In SQL’s case, the normalization of data into a tabular schema aims to minimize storage of  duplicate data objects, types and values. The RDBMS design achieved this normalized goal by linking tables of data via foreign keys to their associated records from other tables.
+
+NoSQL systems carry those concepts forward by simplifying their models in exchange for higher levels of scale and simplicity. A lack of concern about relationships leads to looser data guarantees, plain APIs and straightforward scaling schemes. These systems take on the “store and retrieve” problem at scale for simple data.
 
 #### Graph Systems Focus on Data Connections
 
+Graph database technologies focus on how data elements are interrelated and contextualized as connected data. Connected data is the materialization and harnessing of relationships between data elements, modeled as a property graph. A property graph is a data model designed to express data connectedness as nodes connected via relationships to other nodes.
 
+In the graph model, data relationships are persisted so they can be navigated or traversed along connected paths to gain context. Relationships are both typed and directional.
 
 ### Property Graphs Are Intentionally Simple
 
-
+* You can draw property graphs on whiteboards and map that design directly into a graph database
+* You can change or update a property graph easily
+* You can quickly program property graphs
+* You can visualize and navigate property graphs efficiently
+* You can rapidly determine data context when property graph queries are executed in hyper-fast native graph platforms
 
 ### Benefits of Graph Databases
 
-
-
-### Conclusion
-
-
-
+* Simple and natural data modeling
+* Flexibility for evolving data structures
+* Simultaneous support for real-time updates and queries
+* Better, faster and more powerful querying and analytics
